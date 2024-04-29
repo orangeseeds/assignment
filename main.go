@@ -10,8 +10,15 @@ func main() {
 	doorBell := pkg.NewDoorBell()
 	doorBell.SetVolume(100)
 	doorBell.OnBellRing().Add(func(e *pkg.BellRingEvent) error {
-		fmt.Printf("Bell rang with '%v' sound, running some other action!!\n", e.Sound)
+		// Let's say  this is a trigger to activate the door's dash-cam to start recording when the doorbell rings.
+		fmt.Println("Door's dash-cam started recording...")
 		return nil
 	})
-	fmt.Println("ring ring ring, ", doorBell.Ring())
+	chime, vol, err := doorBell.Ring()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	fmt.Printf("playing chime: %s at volume %d\n", chime, vol)
 }
